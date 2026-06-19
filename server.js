@@ -20,7 +20,8 @@ const allowedOrigins = [
     'http://localhost:5500',
     'http://127.0.0.1:5500',
     'http://localhost:9000',
-    'http://127.0.0.1:9000'
+    'http://127.0.0.1:9000',
+    'https://farmland-registry.vercel.app'
 ];
 
 app.use(cors({
@@ -50,7 +51,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // DATABASE CONNECTION
 // ============================================================
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/farmerdb';
+/*const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/farmerdb';
 
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
@@ -62,7 +63,13 @@ mongoose.connect(MONGODB_URI, {
 .catch((err) => {
     console.error('❌ MongoDB connection error:', err.message);
     process.exit(1);
-});
+});*/
+
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/farmerdb';
+
+mongoose.connect(MONGODB_URI)
+.then(() => console.log('✅ MongoDB connected successfully'))
+.catch(err => console.error('❌ MongoDB connection error:', err.message));
 
 // ============================================================
 // ROUTES
