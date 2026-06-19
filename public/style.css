@@ -1,0 +1,744 @@
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: #f0f4f8;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 30px;
+    background: linear-gradient(135deg, #2d7d46, #1a5c32);
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+header p {
+    opacity: 0.9;
+    font-size: 1.1rem;
+}
+
+/* ============================================================
+   MAIN CONTENT LAYOUT
+   ============================================================ */
+.main-content {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 25px;
+}
+
+/* ============================================================
+   SIDEBAR (Left)
+   ============================================================ */
+.sidebar {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    height: fit-content;
+    max-height: 850px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    color: #2d7d46;
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e8f0e9;
+}
+
+/* Search Box */
+.search-box {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 10px 36px 10px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.3s;
+}
+
+.search-box input:focus {
+    border-color: #2d7d46;
+    outline: none;
+}
+
+.btn-clear-search {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0 5px;
+}
+
+.btn-clear-search:hover {
+    color: #e74c3c;
+}
+
+/* Farmer Count */
+.farmer-count {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+/* Farmer List */
+.farmer-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-right: -5px;
+    padding-right: 5px;
+}
+
+.farmer-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.farmer-list::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 3px;
+}
+
+.farmer-list::-webkit-scrollbar-thumb {
+    background: #c0c0c0;
+    border-radius: 3px;
+}
+
+.farmer-list::-webkit-scrollbar-thumb:hover {
+    background: #a0a0a0;
+}
+
+.farmer-item {
+    padding: 12px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+    margin-bottom: 6px;
+}
+
+.farmer-item:hover {
+    background: #f5f9f6;
+    transform: translateX(4px);
+}
+
+.farmer-item.active {
+    background: #e8f0e9;
+    border-left-color: #2d7d46;
+}
+
+.farmer-item .farmer-name {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+}
+
+.farmer-item .farmer-crop {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 2px;
+}
+
+.farmer-item .farmer-location {
+    font-size: 0.75rem;
+    color: #999;
+    margin-top: 2px;
+}
+
+.farmer-item .farmer-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 6px;
+}
+
+.farmer-item .farmer-actions button {
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.farmer-item .farmer-actions .btn-edit {
+    background: #2d7d46;
+    color: white;
+}
+
+.farmer-item .farmer-actions .btn-edit:hover {
+    background: #1a5c32;
+}
+
+.farmer-item .farmer-actions .btn-delete {
+    background: #e74c3c;
+    color: white;
+}
+
+.farmer-item .farmer-actions .btn-delete:hover {
+    background: #c0392b;
+}
+
+.farmer-item .farmer-actions .btn-focus {
+    background: #3498db;
+    color: white;
+}
+
+.farmer-item .farmer-actions .btn-focus:hover {
+    background: #2980b9;
+}
+
+.no-results {
+    text-align: center;
+    color: #888;
+    padding: 30px 0;
+    font-size: 0.95rem;
+}
+
+.loading-text {
+    text-align: center;
+    color: #888;
+    padding: 20px 0;
+}
+
+/* ============================================================
+   RIGHT CONTENT
+   ============================================================ */
+.right-content {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* ============================================================
+   FORM SECTION
+   ============================================================ */
+.form-section {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.form-section h2 {
+    color: #2d7d46;
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e8f0e9;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #2d7d46;
+    outline: none;
+}
+
+/* Location Controls */
+.location-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-location {
+    background: #2d7d46;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+}
+
+.btn-location:hover {
+    background: #1a5c32;
+}
+
+.location-status {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.location-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #e8f0e9;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2d7d46;
+}
+
+.btn-clear {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0 5px;
+}
+
+/* Submit Button */
+.btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #2d7d46, #1a5c32);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(45, 125, 70, 0.3);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Form Messages */
+.form-message {
+    margin-top: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    display: none;
+}
+
+.form-message.success {
+    display: block;
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.form-message.error {
+    display: block;
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* ============================================================
+   MAP SECTION
+   ============================================================ */
+.map-section {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.map-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    gap: 10px;
+}
+
+.map-controls h2 {
+    color: #2d7d46;
+    font-size: 1.2rem;
+}
+
+.map-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.btn-secondary {
+    background: #f0f4f8;
+    border: 1px solid #d0d7de;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #e0e8f0;
+    border-color: #2d7d46;
+}
+
+.map-stats {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+#map {
+    height: 450px;
+    border-radius: 10px;
+    border: 2px solid #e8f0e9;
+}
+
+/* ============================================================
+   TABLE SECTION
+   ============================================================ */
+.table-section {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e8f0e9;
+}
+
+.table-header h2 {
+    color: #2d7d46;
+    font-size: 1.2rem;
+}
+
+.table-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+#farmersTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+#farmersTable thead {
+    background: #2d7d46;
+    color: white;
+}
+
+#farmersTable th {
+    padding: 12px 16px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+#farmersTable td {
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+#farmersTable tbody tr:hover {
+    background: #f5f9f6;
+}
+
+#farmersTable .actions-cell {
+    display: flex;
+    gap: 4px;
+}
+
+#farmersTable .actions-cell button {
+    padding: 2px 10px;
+    font-size: 0.7rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        max-height: 400px;
+        order: 2;
+    }
+    
+    .right-content {
+        order: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .map-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .map-actions {
+        justify-content: center;
+    }
+    
+    #map {
+        height: 350px;
+    }
+    
+    .location-controls {
+        flex-direction: column;
+    }
+    
+    .table-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .table-actions {
+        justify-content: center;
+    }
+    
+    #farmersTable {
+        font-size: 0.8rem;
+    }
+    
+    #farmersTable th,
+    #farmersTable td {
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        max-height: 300px;
+    }
+    
+    .farmer-item {
+        padding: 8px 10px;
+    }
+}
+
+
+/* ============================================================
+   MANUAL LOCATION INPUT
+   ============================================================ */
+.manual-location-input {
+    margin-top: 10px;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.coord-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.coord-field {
+    flex: 1;
+    min-width: 120px;
+}
+
+.coord-field label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.coord-field input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.btn-manual-location {
+    background: #2d7d46;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    height: 38px;
+    margin-top: 18px; /* to align with inputs */
+}
+
+.btn-manual-location:hover {
+    background: #1a5c32;
+}
+
+.help-text {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: #888;
+    transition: color 0.3s;
+}
+
+/* Location preview enhancements */
+.location-preview {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #e8f0e9;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2d7d46;
+    flex-wrap: wrap;
+}
+
+#locationSource {
+    font-weight: normal;
+    font-size: 0.8rem;
+    color: #666;
+    margin-left: auto;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .coord-row {
+        flex-direction: column;
+        gap: 6px;
+    }
+    .coord-field {
+        min-width: auto;
+        width: 100%;
+    }
+    .btn-manual-location {
+        width: 100%;
+        margin-top: 5px;
+        height: auto;
+        padding: 10px;
+    }
+}
+
+/* Place Search Row */
+.place-search-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.place-search-row input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+}
+
+.btn-place-search {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+.btn-place-search:hover {
+    background: #2980b9;
+}
+
+@media (max-width: 600px) {
+    .place-search-row {
+        flex-direction: column;
+    }
+    .btn-place-search {
+        width: 100%;
+    }
+}

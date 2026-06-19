@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 Farmer Land Registry</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1>🌾 Farmer Land Registry</h1>
+            <p>Register farmers and view their plots on the map</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- LEFT SIDEBAR: Farmer List -->
+            <div class="sidebar">
+                <h2>👨‍🌾 Farmers</h2>
+                
+                <!-- Search Box -->
+                <div class="search-box">
+                    <input type="text" id="farmerSearch" placeholder="🔍 Search farmers by name, crop, or location..." />
+                    <button id="clearSearchBtn" class="btn-clear-search" style="display:none;">✕</button>
+                </div>
+                
+                <!-- Farmer Count -->
+                <div class="farmer-count" id="farmerCount">0 farmers</div>
+                
+                <!-- Farmer List -->
+                <div class="farmer-list" id="farmerList">
+                    <div class="loading-text">Loading farmers...</div>
+                </div>
+            </div>
+
+            <!-- RIGHT CONTENT: Map + Form -->
+            <div class="right-content">
+                <!-- Registration Form -->
+                <div class="form-section">
+                    <h2>📋 Register New Farmer</h2>
+                    
+                    <form id="registrationForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Full Name *</label>
+                                <input type="text" id="name" placeholder="e.g., Rajan Nair" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" placeholder="10-digit number">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="crop">Crop Type *</label>
+                                <select id="crop" required>
+                                    <option value="">Select crop...</option>
+                                    <option value="paddy">🌾 Paddy (Rice)</option>
+                                    <option value="wheat">🌾 Wheat</option>
+                                    <option value="corn">🌽 Corn</option>
+                                    <option value="vegetables">🥬 Vegetables</option>
+                                    <option value="fruits">🍎 Fruits</option>
+                                    <option value="sugarcane">🍃 Sugarcane</option>
+                                    <option value="cotton">🌿 Cotton</option>
+                                    <option value="coffee">☕ Coffee</option>
+                                    <option value="tea">🍵 Tea</option>
+                                    <option value="spices">🌶️ Spices</option>
+                                    <option value="other">🌱 Other</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="plotSize">Plot Size (acres)</label>
+                                <input type="number" id="plotSize" placeholder="e.g., 2.5" step="0.1" min="0.1" max="1000">
+                            </div>
+                        </div>
+                        
+                        <!-- ===== LOCATION SECTION (UPDATED) ===== -->
+                        <div class="form-group">
+                            <label>Plot Location</label>
+                            
+                            <!-- GPS Location Button -->
+                            <div class="location-controls">
+                                <button type="button" id="getLocationBtn" class="btn-location">
+                                    📍 Get Current Location
+                                </button>
+                                <span id="locationStatus" class="location-status">Click to get location</span>
+                            </div>
+                            
+                            <!-- Manual Location Input -->
+                            <div class="manual-location-input">
+    <div class="place-search-row">
+        <input type="text" id="placeSearchInput" placeholder="Search for a place...">
+        <button type="button" id="placeSearchBtn">🔍 Search</button>
+    </div>
+    <div class="coord-row">
+        <div class="coord-field">
+            <label for="manualLat">Latitude</label>
+            <input type="number" id="manualLat" placeholder="e.g., 12.4248" step="any" min="-90" max="90">
+        </div>
+        <div class="coord-field">
+            <label for="manualLng">Longitude</label>
+            <input type="number" id="manualLng" placeholder="e.g., 75.0256" step="any" min="-180" max="180">
+        </div>
+        <button type="button" id="setManualLocationBtn" class="btn-manual-location">
+            📌 Set Manual Location
+        </button>
+    </div>
+    <div id="manualLocationHelp" class="help-text">Enter coordinates or search for a place</div>
+</div>
+                            <!-- Location Preview -->
+                            <div id="locationPreview" class="location-preview" style="display: none;">
+                                <span id="locationCoords">0.0000, 0.0000</span>
+                                <span id="locationSource" style="font-size:0.8rem;color:#666;"></span>
+                                <button type="button" id="clearLocationBtn" class="btn-clear">✕</button>
+                            </div>
+                        </div>
+                        <!-- ===== END LOCATION SECTION ===== -->
+                        
+                        <button type="submit" id="registerBtn" class="btn-primary">🌾 Register Farmer</button>
+                    </form>
+                    
+                    <div id="formMessage" class="form-message"></div>
+                </div>
+
+                <!-- Map Section -->
+                <div class="map-section">
+                    <div class="map-controls">
+                        <h2>🗺️ Farmer Map</h2>
+                        <div class="map-actions">
+                            <button id="refreshMapBtn" class="btn-secondary">🔄 Refresh</button>
+                            <button id="nearbyBtn" class="btn-secondary">📍 Find Nearby</button>
+                            <button id="resetViewBtn" class="btn-secondary">🏠 Reset View</button>
+                            <button id="showTableBtn" class="btn-secondary">📊 Table View</button>
+                        </div>
+                        <div class="map-stats" id="mapStats">Loading farmers...</div>
+                    </div>
+                    <div id="map"></div>
+                </div>
+
+                <!-- Table View (hidden by default) -->
+                <div class="table-section" id="tableSection" style="display: none;">
+                    <div class="table-header">
+                        <h2>📊 Farmers Table</h2>
+                        <div class="table-actions">
+                            <button id="closeTableBtn" class="btn-secondary">✕ Close</button>
+                            <button id="exportCsvBtn" class="btn-secondary">📥 Export CSV</button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table id="farmersTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Crop</th>
+                                    <th>Size (acres)</th>
+                                    <th>Phone</th>
+                                    <th>Location</th>
+                                    <th>Registered</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody">
+                                <tr><td colspan="8" class="loading-text">Loading farmers...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Application JS -->
+    <script src="app.js"></script>
+</body>
+</html>
