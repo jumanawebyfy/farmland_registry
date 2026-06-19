@@ -5,7 +5,9 @@
 // ============================================================
 // Configuration
 // ============================================================
-const API_URL = 'http://localhost:3000/api/farmers';
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:3000/api/farmers' 
+    : 'https://farmland-registry-backend.onrender.com/api/farmers';
 
 // ============================================================
 // DOM Elements
