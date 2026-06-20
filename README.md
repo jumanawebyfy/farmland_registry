@@ -5,6 +5,9 @@ A full-stack web application for registering and managing farmers with their lan
 The link to the website:
 https://farmland-registry.vercel.app/
 
+
+backend link: https://farmland-registry-backend.onrender.com/
+
 ## ✨ Features
 
 ### 🔐 Core Features
