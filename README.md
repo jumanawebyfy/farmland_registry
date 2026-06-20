@@ -2,7 +2,8 @@
 
 A full-stack web application for registering and managing farmers with their land plots on an interactive map. Built with Node.js, Express, MongoDB, and Leaflet.js.
 
-![Farmer Land Registry Screenshot](https://via.placeholder.com/800x400?text=Farmer+Land+Registry)
+The link to the website:
+https://github.com/jumanawebyfy/farmland_registry.git
 
 ## ✨ Features
 
