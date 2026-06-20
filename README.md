@@ -3,7 +3,7 @@
 A full-stack web application for registering and managing farmers with their land plots on an interactive map. Built with Node.js, Express, MongoDB, and Leaflet.js.
 
 The link to the website:
-https://github.com/jumanawebyfy/farmland_registry.git
+https://farmland-registry.vercel.app/
 
 ## ✨ Features
 
